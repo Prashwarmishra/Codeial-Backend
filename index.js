@@ -5,7 +5,7 @@ const app = express();
 
 //connect to mongoose
 const db = require('./config/mongoose');
-
+const User = require('./models/User');
 //set up static files access
 app.use(express.static('./assets'));
 
