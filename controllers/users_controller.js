@@ -3,9 +3,22 @@ const User = require('../models/User');
 
 //render the profile page
 module.exports.profile = function(req, res){
-    return res.render('profile', {
-        title: 'Profile',
-    });
+    if(req.cookies.user_id){
+        User.findOne({_id: req.cookies.user_id}, function(err, user){
+            if(err){console.log("Error in locating user's profile information"); return;}
+            if(user){
+                return res.render('profile', {
+                    title: 'Profile', 
+                    user_name: user.name,
+                    user_email: user.email,
+                });
+            }
+            return res.redirect('/users/sign-in');
+        });
+    }else{
+        return res.redirect('/users/sign-in');
+    }
+ 
 }
 
 //render the post page
@@ -17,6 +30,9 @@ module.exports.posts = function(req, res){
 
 //render the sign up page
 module.exports.signUp = function(req, res){
+    if(req.cookies.user_id){
+        return res.redirect('back');
+    }
     return res.render('user_sign_up', {
         title: "Codeial | Sign Up",
     });
@@ -24,6 +40,9 @@ module.exports.signUp = function(req, res){
 
 //render the sign up page
 module.exports.signIn = function(req, res){
+    if(req.cookies.user_id){
+        return res.redirect('back');
+    }
     return res.render('user_sign_in', {
         title: "Codeial | Sign In",
     });
@@ -66,4 +85,9 @@ module.exports.createSession = function(req, res){
         //handle user not found
         return res.redirect('back');
     })
+}
+
+module.exports.signOut = function(req, res){
+    res.clearCookie('user_id');
+    return res.redirect('back');
 }
