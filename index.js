@@ -6,6 +6,8 @@ const app = express();
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
+const MongoStore = require('connect-mongo');
+
 
 //set up middlewares
 app.use(cookieParser());
@@ -35,7 +37,13 @@ app.use(session({
     resave: false,
     cookie: {
         maxAge: (1000*60*100)
-    }
+    }, 
+    store: MongoStore.create({
+        mongoUrl: 'mongodb://localhost/codeial_development',
+        autoRemove: 'disabled',
+    }, function(err){
+        console.log(err || 'Mongo Connection Okay.');
+    }),
 }));
 
 app.use(passport.initialize());
@@ -54,3 +62,14 @@ app.listen(port, function(err){
     }
     console.log(`The server is up and running at the port: ${port}`);
 })
+
+
+
+// const MongoStore = require('connect-mongo');
+
+// store: MongoStore.create(
+//     {
+//         mongoUrl: 'mongodb://localhost/codeial_development',
+//         autoRemove: 'disabled'
+//     }
+// )
