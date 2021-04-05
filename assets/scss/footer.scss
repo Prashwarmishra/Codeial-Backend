@@ -1,0 +1,20 @@
+footer {
+    display: flex;
+    padding: 0.5em 1em;
+    background: gainsboro;
+    * {
+        color: black;
+    }
+    .footer-title{
+        padding: 0.2em;
+    }
+    ul {
+        list-style: none;
+        li{
+            padding: 0.2em;
+        }
+        a {
+            text-decoration: none;
+        }
+    } 
+}

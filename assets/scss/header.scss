@@ -1,0 +1,27 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em;
+    align-items: center;
+    background-color: black;
+    * {
+        color: white;
+    }
+    h3 {
+        font-size: 1.8em;
+        // a {
+        //     text-decoration: none;
+        // }
+    }
+    ul {
+        list-style: none;
+        text-align: center;
+        li {
+            display: inline;
+            padding: 0.5em;
+        };
+        a {
+            text-decoration: none;
+        }
+    }
+}
