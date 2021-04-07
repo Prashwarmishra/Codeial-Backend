@@ -70,14 +70,3 @@ app.listen(port, function(err){
     }
     console.log(`The server is up and running at the port: ${port}`);
 })
-
-
-
-// const MongoStore = require('connect-mongo');
-
-// store: MongoStore.create(
-//     {
-//         mongoUrl: 'mongodb://localhost/codeial_development',
-//         autoRemove: 'disabled'
-//     }
-// )
