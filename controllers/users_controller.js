@@ -3,9 +3,20 @@ const User = require('../models/User');
 
 //render the profile page
 module.exports.profile = function(req, res){
-    return res.render('profile', {
-        title: 'Profile',
-    });
+    User.findById(req.params.id, function(err, user){
+        if(err){
+            console.log('Error in finding user profile');
+            return;
+        }
+        if(user){
+            return res.render('profile', {
+                title: 'Profile',
+                user_profile: user,
+            });
+        }else{
+            return res.redirect('back');
+        }
+    })
 }
 
 //render the post page

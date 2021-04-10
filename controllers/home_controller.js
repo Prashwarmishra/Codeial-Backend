@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const User = require('../models/User');
 
 module.exports.home = function(req, res){
     Post.find({})
@@ -14,9 +15,16 @@ module.exports.home = function(req, res){
             console.log("Error in displaying user Posts");
             return;
         }
-        return res.render('home', {
-            title: 'Codeial | Home',
-            posts: posts,
+        User.find({}, function(err, users){
+            if(err){
+                console.log('Error in finding the users');
+                return;
+            }
+            return res.render('home', {
+                title: 'Codeial | Home',
+                posts: posts,
+                all_users: users,
+            });
         });
     })    
     

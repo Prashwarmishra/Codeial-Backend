@@ -20,3 +20,11 @@
         </ul>
     </div>
 </section>
+
+<section id="user-friends">
+    <% if(locals.user){ %>
+        <% for(let u of all_users) { %>
+            <a href="/users/profile/<%= u.id %>"> <%= u.name %> </a>
+        <% } %>  
+    <% } %>  
+</section>
