@@ -1,12 +1,13 @@
 header {
   display: flex;
   justify-content: space-between;
-  padding: 0.5em;
+  padding: 0 0.5em;
   align-items: center;
   background-color: black; }
   header * {
     color: white; }
   header h3 {
+    margin: 0;
     font-size: 1.8em; }
   header ul {
     list-style: none;

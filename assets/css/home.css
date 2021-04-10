@@ -1,0 +1,27 @@
+#home-container {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%; }
+  #home-container input {
+    height: 1.4em;
+    border: 1px solid darkblue; }
+  #home-container button {
+    width: 6em;
+    border: none;
+    background-color: cornflowerblue;
+    height: 1.75em; }
+  #home-container .feed-posts {
+    width: 80%;
+    padding: 1rem;
+    min-height: 100vh; }
+    #home-container .feed-posts #posts-list-container small a {
+      text-decoration: none;
+      font-weight: bold;
+      color: red; }
+  #home-container #user-friends {
+    width: 12%;
+    padding: 1rem;
+    border-left: 1px solid gray; }
+    #home-container #user-friends p a {
+      text-decoration: none;
+      color: maroon; }

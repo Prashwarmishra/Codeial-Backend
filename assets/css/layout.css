@@ -1,9 +1,7 @@
 body {
   font-family: sans-serif;
   margin: 0;
-  text-align: center; }
-  body h1, body h2, body h3, body h4, body h5, body h6, body ul {
-    margin: 0; }
+  background-color: aliceblue; }
   body #layout-main {
-    height: 100vh;
-    padding: 2em 0; }
+    min-height: 100vh;
+    padding: 1rem; }
