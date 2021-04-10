@@ -4,13 +4,15 @@
         <span>Codeial. All rights reserved.</span>
     </div>
     <div class="sections">
-        <ul>
-            <li>
-                <a href="/">Home</a>
-            </li>
-            <li>
-                <a href="/users/profile">Profile</a>
-            </li>
-        </ul>
+        <% if(locals.user){ %>
+            <ul>
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="/users/profile/<%= user.id %>">Profile</a>
+                </li>
+            </ul>
+        <% } %>
     </div>
 </footer>

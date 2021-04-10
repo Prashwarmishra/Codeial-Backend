@@ -19,6 +19,21 @@ module.exports.profile = function(req, res){
     })
 }
 
+//create a controller for updating user's profile
+module.exports.update = function(req, res) {
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+            if(err){
+                console.log('Error updating user details');
+                return;
+            }
+            return res.redirect('back');
+        });
+    }else{
+        return res.status(401).send('Unauthorized Access');
+    }
+}
+
 //render the post page
 module.exports.posts = function(req, res){
     return res.render('posts', {
