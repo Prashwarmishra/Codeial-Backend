@@ -11,6 +11,12 @@
    <% } %>
 
     <div id="posts-list-container">
-        <%- include("_posts.ejs") %>
+        <ul>
+            <% for(let post of posts) { %>
+        
+                <%- include('_post', {post: post}); %>
+        
+            <% } %>    
+        </ul>
     </div>
 </section>
