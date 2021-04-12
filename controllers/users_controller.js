@@ -1,13 +1,9 @@
 const User = require('../models/User');
 
-
 //render the profile page
-module.exports.profile = function(req, res){
-    User.findById(req.params.id, function(err, user){
-        if(err){
-            console.log('Error in finding user profile');
-            return;
-        }
+module.exports.profile = async function(req, res){
+    try{
+        let user = await User.findById(req.params.id);
         if(user){
             return res.render('profile', {
                 title: 'Profile',
@@ -15,30 +11,32 @@ module.exports.profile = function(req, res){
             });
         }else{
             return res.redirect('back');
-        }
-    })
+        } 
+    }catch(err){
+        console.log('Error in loading user profile');
+        return;
+    }  
 }
 
 //create a controller for updating user's profile
-module.exports.update = function(req, res) {
-    if(req.user.id == req.params.id){
-        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
-            if(err){
-                console.log('Error updating user details');
-                return;
-            }
-            return res.redirect('back');
-        });
-    }else{
-        return res.status(401).send('Unauthorized Access');
-    }
-}
+module.exports.update = async function(req, res) {
+    try{
 
-//render the post page
-module.exports.posts = function(req, res){
-    return res.render('posts', {
-        title: 'Posts',
-    });
+        //authenticate user
+        if(req.user.id == req.params.id){
+
+            //find User's details and update
+            await User.findByIdAndUpdate(req.params.id, req.body);
+            return res.redirect('back');
+        }else{
+            return res.status(401).send('Unauthorized Access');
+        }
+    }catch(err){
+        if(err){
+            console.log('Error in updating user profile');
+            return;
+        }
+    }
 }
 
 //render the sign up page
@@ -51,7 +49,7 @@ module.exports.signUp = function(req, res){
     });
 }
 
-//render the sign up page
+//render the sign in page
 module.exports.signIn = function(req, res){
     if(req.isAuthenticated()){
         return res.redirect('/users/profile');
@@ -62,19 +60,29 @@ module.exports.signIn = function(req, res){
 }
 
 //create a user database
-module.exports.create = function(req, res){
-    if(req.body.password != req.body.confirm_password){
-        return res.redirect('back');
-    }
-    User.findOne({email: req.body.email}, function(err, user){
-        if(err){console.log("Error in locating the user in database"); return;}
-        if(!user){
-            User.create(req.body, function(err, user){
-                if(err){console.log("Error in creating the user account"); return;}
-                return res.redirect('/users/sign-in');
-            })
+module.exports.create = async function(req, res){
+    try{
+        //handle password mismatch
+        if(req.body.password != req.body.confirm_password){
+            return res.redirect('back');
         }
-    })
+
+        //find user in db
+        let user = await User.findOne({email: req.body.email});
+
+        //if user not found, create user
+        if(!user){
+            await User.create(req.body);
+            return res.redirect('/users/sign-in');
+        }else{
+            
+            //if user found, redirect to sign-in page
+            return res.redirect('/users/sign-in');
+        }
+    }catch(err){
+        console.log('Error while creating user in database');
+        return;
+    }
 }
 
 

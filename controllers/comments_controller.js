@@ -1,49 +1,57 @@
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 
-module.exports.create = function(req, res){
-    Post.findById(req.body.post, function(err, post){
-        if(err){
-            console.log("Error in finding the post, the user is trying to comment on.");
-            return;
-        }
+//create a controller for adding a comment on a post
+module.exports.create = async function(req, res){
+    try{
+        //find the post on which comment has to be added
+        let post = await Post.findById(req.body.post);
+
+        //if post is found, create comment in db
         if(post){
-            Comment.create({
+            let comment = await Comment.create({
                 content: req.body.content,
                 post: req.body.post,
                 user: req.user._id,
-            }, function(err, comment){
-                if(err){
-                    console.log("Error in creating the comment on the post");
-                    return;
-                }
-                post.comments.push(comment);
-                post.save();
-
-                return res.redirect('back');
             });
+
+            //push comment id to post schema's array of comments
+            post.comments.push(comment);
+            post.save();
+            return res.redirect('back');
+        }else{
+
+            //if post not found, redirect back
+            console.log('Post on which the user is trying to comment is not found');
+            return res.redirect('back');
         }
-    })
+    }catch(err){
+        console.log('Error in adding comments on the Post');
+        return;
+    }
 }
 
-module.exports.destroy = function(req, res){
-    Comment.findById(req.params.id, function(err, comment){
-        if(err){
-            console.log('Error in finding the comment user is trying to delete');
-            return;
-        }
+//create a controller for deleting the comment
+module.exports.destroy = async function(req, res){
+    try{
+        //locate comment in database
+        let comment = await Comment.findById(req.params.id);
+
+        //authenticate comment's owner
         if(comment.user == req.user.id){
             let postId = comment.post;
             comment.remove();
-            Post.findByIdAndUpdate(postId, {$pull: {comments: req.params.id}}, function(err, post){
-                if(err){
-                    console.log("Error fetching comment in the Post array");
-                    return;
-                }
-                return res.redirect('back');
-            });
+
+            //delete comment's id from the post comments array in post Schema
+            await Post.findByIdAndUpdate(postId, {$pull: {comments: req.params.id}});
+            return res.redirect('back');
         }else{
+
+            //if comment not found, redirect back
             return res.redirect('back');
         }
-    });
+    } catch(err){
+        console.log('Error in deleting the comment');
+        return;
+    }
 }

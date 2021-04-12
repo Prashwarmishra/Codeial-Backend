@@ -1,31 +1,31 @@
 const Post = require('../models/Post');
 const User = require('../models/User');
 
-module.exports.home = function(req, res){
-    Post.find({})
-    .populate('user')
-    .populate({
-        path: 'comments',
-        populate: {
-            path: 'user'
-        }
-    })
-    .exec(function(err, posts){
-        if(err){
-            console.log("Error in displaying user Posts");
-            return;
-        }
-        User.find({}, function(err, users){
-            if(err){
-                console.log('Error in finding the users');
-                return;
+//render home page
+module.exports.home = async function(req, res){
+    try{
+
+        //find all the posts in db
+        let posts = await Post.find({})
+        .populate('user')
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'user'
             }
-            return res.render('home', {
-                title: 'Codeial | Home',
-                posts: posts,
-                all_users: users,
-            });
-        });
-    })    
-    
+        })
+
+        //find all the users in db
+        let users = await User.find({});
+
+        //render all posts and users on home page
+        return res.render('home', {
+            title: 'Codeial | Home',
+            posts: posts,
+            all_users: users,
+        });  
+    }catch(err){
+        console.log('Error in home controller: ', err);
+        return;
+    }
 }
