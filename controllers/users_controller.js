@@ -10,10 +10,11 @@ module.exports.profile = async function(req, res){
                 user_profile: user,
             });
         }else{
+            req.flash('error', 'user not found');
             return res.redirect('back');
         } 
     }catch(err){
-        console.log('Error in loading user profile');
+        req.flash('error', 'Error in loading user profile');
         return;
     }  
 }
@@ -27,15 +28,14 @@ module.exports.update = async function(req, res) {
 
             //find User's details and update
             await User.findByIdAndUpdate(req.params.id, req.body);
+            req.flash('success', 'Profile Updated Successfully!');
             return res.redirect('back');
         }else{
             return res.status(401).send('Unauthorized Access');
         }
     }catch(err){
-        if(err){
-            console.log('Error in updating user profile');
-            return;
-        }
+        req.flash('error', 'Error in updating user profile');
+        return;
     }
 }
 
@@ -73,14 +73,16 @@ module.exports.create = async function(req, res){
         //if user not found, create user
         if(!user){
             await User.create(req.body);
+            req.flash('success', 'Profile created, please sign in');
             return res.redirect('/users/sign-in');
         }else{
             
             //if user found, redirect to sign-in page
+            req.flash('error', 'Account with the email exists already');
             return res.redirect('/users/sign-in');
         }
     }catch(err){
-        console.log('Error while creating user in database');
+        req.flash('error', 'Error while creating user in database');
         return;
     }
 }

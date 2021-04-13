@@ -18,15 +18,16 @@ module.exports.create = async function(req, res){
             //push comment id to post schema's array of comments
             post.comments.push(comment);
             post.save();
+            req.flash('success', 'Comment Added!');
             return res.redirect('back');
         }else{
 
             //if post not found, redirect back
-            console.log('Post on which the user is trying to comment is not found');
+            req.flash('error', 'Post on which the user is trying to comment is not found');
             return res.redirect('back');
         }
     }catch(err){
-        console.log('Error in adding comments on the Post');
+        req.flash('error', 'Error in adding comments on the Post');
         return;
     }
 }
@@ -44,14 +45,16 @@ module.exports.destroy = async function(req, res){
 
             //delete comment's id from the post comments array in post Schema
             await Post.findByIdAndUpdate(postId, {$pull: {comments: req.params.id}});
+            req.flash('success', 'Comment Deleted');
             return res.redirect('back');
         }else{
 
             //if comment not found, redirect back
+            req.flash('error', 'Comment not found');
             return res.redirect('back');
         }
     } catch(err){
-        console.log('Error in deleting the comment');
+        req.flash('error', 'Error in deleting the comment');
         return;
     }
 }
