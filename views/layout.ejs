@@ -17,6 +17,10 @@
 
     <%- include('_header'); %>
 
+    <% if(locals.flash.success && flash.success.length > 0) { %>
+        <%= flash.success %>
+    <% } %>
+
     <main id="layout-main">
         <%- body %>
     </main>

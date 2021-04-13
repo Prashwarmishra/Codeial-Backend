@@ -88,11 +88,13 @@ module.exports.create = async function(req, res){
 
 //create session for logging in the user
 module.exports.createSession = function(req, res){
+    req.flash('success', 'Successfully Logged In!');
     return res.redirect('/');
 }
 
 //create a controller to sign out user
 module.exports.destroySession = function(req, res){
     req.logout();
+    req.flash('success', 'Successfully Logged Out!');
     return res.redirect('/users/sign-in');
 }
