@@ -13,6 +13,8 @@
                 success: function(data){
                     let newPost = newPostDom(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
+                    // deletePost($(`${newPost} .delete-post-button`));
+                    deletePost($(` .delete-post-button`, newPost));
                 },
                 error: function(error){
                     console.log(error.responseText);
@@ -24,10 +26,10 @@
     //method to display post created on home page
     let newPostDom = function(post){
         return $(`
-            <li id="post-${ post.id }">
+            <li id="post-${ post._id }">
                 <p>
                     <small>
-                        <a class="delete-post-button" href="/posts/destroy/${ post.id }">x</a>
+                        <a class="delete-post-button" href="/posts/destroy/${ post._id }">x</a>
                     </small>       
                     <strong>
                         ${ post.content }
@@ -53,6 +55,24 @@
                 </div>
             </li> 
         `)
+    }
+
+    //add method to delete post using AJAX
+    let deletePost = function(deleteLink){
+        $(deleteLink).click(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                url: $(deleteLink).prop('href'),
+                method: 'get',
+                success: function(data){
+                    $(`#post-${data.data.post_id}`).remove();
+                },
+                error: function(error){
+                    console.log(error.responseText);
+                }
+            })
+        });
     }
 
     createPost();
