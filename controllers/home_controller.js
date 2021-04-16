@@ -13,8 +13,10 @@ module.exports.home = async function(req, res){
             path: 'comments',
             populate: {
                 path: 'user',
+                options: {sort: {position: -1}},
             }
         })
+        
         
 
         //find all the users in db

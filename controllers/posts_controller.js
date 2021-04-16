@@ -29,13 +29,15 @@ module.exports.create = async function(req, res){
 //delete a post
 module.exports.destroy = async function(req, res){
     try{
-
         //locate post in database
         let post = await Post.findById(req.params.id);
 
         //authenticate post's owner
         if(post && post.user == req.user.id){
             post.remove();
+            
+            //delete comments associated with the post
+            await Comment.deleteMany({post: req.params.id});
 
             if(req.xhr){
                 return res.status(200).json({
@@ -46,8 +48,6 @@ module.exports.destroy = async function(req, res){
                 });
             }
 
-            //delete comments associated with the post
-            await Comment.deleteMany({post: req.params.id});
             req.flash('success', 'Post deleted');
             return res.redirect('back');
         }else{

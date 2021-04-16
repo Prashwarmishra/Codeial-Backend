@@ -75,5 +75,15 @@
         });
     }
 
+    let updateDeleteButton = function(){
+        let posts = document.querySelectorAll(('#posts-list-container>ul>li'));
+        
+        posts.forEach(post => {
+            let deleteLink = post.querySelector(`.delete-post-button`);
+            deletePost(deleteLink);
+        });
+    }
+
     createPost();
+    updateDeleteButton();
 }
