@@ -1,4 +1,80 @@
+class postComment{
+    constructor(postId){
+        this.postId = postId;
+        this.commentForm = $(`#post-${ postId }-comments-form`);
+        let comments = document.querySelectorAll(`#post-${postId} .delete-comment-button`);
+        let self = this;
+        comments.forEach(comment => {
+            self.deleteComment(comment);
+        });
+        this.createComment(postId);
+    }
+
+    createComment = function(postId){
+        let commentForm = $(this.commentForm);
+        let self = this;
+        commentForm.submit(function(e){
+            e.preventDefault();
+    
+            $.ajax({
+                url: '/comments/create',
+                method: 'post',
+                data: commentForm.serialize(),
+                success: function(data){
+                    let newComment = self.newCommentDOM(data.data.comment);
+                    $(`#post-comments-${ postId }`).prepend(newComment);
+                    self.deleteComment($(` .delete-comment-button`, newComment));
+                },
+                error: function(error){
+                    console.log(error.responseText);
+                }
+            })
+        });
+    }
+
+    newCommentDOM = function(comment){
+        return $(
+        `
+            <li id="comment-${ comment._id }"> 
+                <p>
+                    <small>
+                        <a href="/comments/destroy/${ comment._id }" class="delete-comment-button">x</a>
+                    </small> 
+                    <span>
+                        ${ comment.content }
+                    </span>
+                    <br>
+                    <small>
+                        ${ comment.user.name }
+                    </small>
+                </p>
+            </li>
+        `)
+    }
+
+    deleteComment = function(deleteLink){
+        $(deleteLink).click(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                url: $(deleteLink).prop('href'),
+                method: 'get',
+                success: function(data){
+                    $(`#comment-${data.data.comment_id}`).remove();
+                },
+                error: function(error){
+                    console.log(error.responseText);
+                }
+            });
+        });
+    }
+}
+
+
+
+
 {
+        
     //method to send form data to posts_controller using ajax
     let createPost = function(){
         let newPostForm = $('#new-post-form');
@@ -13,13 +89,13 @@
                 success: function(data){
                     let newPost = newPostDom(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
-                    // deletePost($(`${newPost} .delete-post-button`));
                     deletePost($(` .delete-post-button`, newPost));
+                    new postComment(data.data.post._id);
                 },
                 error: function(error){
                     console.log(error.responseText);
                 }
-            })
+            });
         });
     }
 
@@ -41,7 +117,8 @@
                 </p>
         
                 <div class="post-comments">
-                    <form action="/comments/create" method="POST" >
+                
+                    <form id="post-${post._id}-comments-form" action="/comments/create" method="POST" >
                         <input type="text" name="content" placeholder="Type to add Comment..." required>
                         <input type="hidden" name="post" value="${ post._id }">
                         <button type="submit">Comment</button>
@@ -81,6 +158,7 @@
         posts.forEach(post => {
             let deleteLink = post.querySelector(`.delete-post-button`);
             deletePost(deleteLink);
+            new postComment(post.id.split('-')[1]);
         });
     }
 

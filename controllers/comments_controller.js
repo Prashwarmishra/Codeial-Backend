@@ -18,6 +18,16 @@ module.exports.create = async function(req, res){
             //push comment id to post schema's array of comments
             post.comments.push(comment);
             post.save();
+
+            if(req.xhr){
+                return res.status(200).json({
+                    data: {
+                        comment: comment,
+                    }, 
+                    message: 'Comment created successfully!',
+                });
+            }
+
             req.flash('success', 'Comment Added!');
             return res.redirect('back');
         }else{
@@ -45,6 +55,16 @@ module.exports.destroy = async function(req, res){
 
             //delete comment's id from the post comments array in post Schema
             await Post.findByIdAndUpdate(postId, {$pull: {comments: req.params.id}});
+
+            if(req.xhr){
+                return res.status(200).json({
+                    data: {
+                        comment_id: req.params.id,
+                    },
+                    message: 'Comment deleted successfully',
+                })
+            }
+
             req.flash('success', 'Comment Deleted');
             return res.redirect('back');
         }else{
