@@ -29,22 +29,22 @@
     <script>
         <% if(locals.flash.success && flash.success.length > 0){ %>
             new Noty({
-            theme: 'relax',
-            type: 'success',
-            text: '<%= flash.success %>',
-            layout: 'topRight',
-            timeout: 500,
-        }).show();
+                theme: 'relax',
+                type: 'success',
+                text: '<%= flash.success %>',
+                layout: 'topRight',
+                timeout: 500,
+            }).show();
         <% } %>
 
         <% if(locals.flash.error && flash.error.length > 0) { %>
             new Noty({
-                theme: 'relax',
-                type: 'error',
-                text: '<%= flash.error %>',
-                layout: 'topRight',
-                timeout: 500,
-            }).show();
+                    theme: 'relax',
+                    type: 'error',
+                    text: '<%= flash.error %>',
+                    layout: 'topRight',
+                    timeout: 500,
+                }).show();
         <% } %>    
     </script>
     <script src="/js/home_posts.js"></script>

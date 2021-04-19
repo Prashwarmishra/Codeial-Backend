@@ -10,6 +10,7 @@ class postComment{
         this.createComment(postId);
     }
 
+    //method to collect comment form data via AJAX 
     createComment = function(postId){
         let commentForm = $(this.commentForm);
         let self = this;
@@ -24,14 +25,30 @@ class postComment{
                     let newComment = self.newCommentDOM(data.data.comment);
                     $(`#post-comments-${ postId }`).prepend(newComment);
                     self.deleteComment($(` .delete-comment-button`, newComment));
+
+                    new Noty({
+                        theme: 'relax',
+                        type: 'success',
+                        text: 'Comment Added!',
+                        layout: 'topRight',
+                        timeout: 1500,
+                    }).show();
                 },
                 error: function(error){
                     console.log(error.responseText);
+                    new Noty({
+                        theme: 'relax',
+                        type: 'error',
+                        text: 'Error adding Comment',
+                        layout: 'topRight',
+                        timeout: 1500,
+                    }).show();
                 }
             })
         });
     }
-
+    
+    //method to display comment data on home page via AJAX
     newCommentDOM = function(comment){
         return $(
         `
@@ -52,6 +69,7 @@ class postComment{
         `)
     }
 
+    //method to delete comment via AJAX
     deleteComment = function(deleteLink){
         $(deleteLink).click(function(e){
             e.preventDefault();
@@ -61,9 +79,24 @@ class postComment{
                 method: 'get',
                 success: function(data){
                     $(`#comment-${data.data.comment_id}`).remove();
+
+                    new Noty({
+                        theme: 'relax',
+                        type: 'success',
+                        text: 'Comment Deleted!',
+                        layout: 'topRight',
+                        timeout: 1500,
+                    }).show();
                 },
                 error: function(error){
                     console.log(error.responseText);
+                    new Noty({
+                        theme: 'relax',
+                        type: 'error',
+                        text: 'Error deleting Comment',
+                        layout: 'topRight',
+                        timeout: 1500,
+                    }).show();
                 }
             });
         });
@@ -91,9 +124,26 @@ class postComment{
                     $('#posts-list-container>ul').prepend(newPost);
                     deletePost($(` .delete-post-button`, newPost));
                     new postComment(data.data.post._id);
+
+                    new Noty({
+                        theme: 'relax',
+                        type: 'success',
+                        text: 'Post Added!',
+                        layout: 'topRight',
+                        timeout: 1500,
+                    }).show();
                 },
                 error: function(error){
                     console.log(error.responseText);
+                    
+                    new Noty({
+                        theme: 'relax',
+                        type: 'error',
+                        text: 'Error adding Post',
+                        layout: 'topRight',
+                        timeout: 1500,
+                    }).show();
+
                 }
             });
         });
@@ -144,9 +194,25 @@ class postComment{
                 method: 'get',
                 success: function(data){
                     $(`#post-${data.data.post_id}`).remove();
+
+                    new Noty({
+                        theme: 'relax',
+                        type: 'success',
+                        text: 'Post Deleted!',
+                        layout: 'topRight',
+                        timeout: 1500,
+                    }).show();
                 },
                 error: function(error){
                     console.log(error.responseText);
+
+                    new Noty({
+                        theme: 'relax',
+                        type: 'error',
+                        text: 'Error Deleting Post',
+                        layout: 'topRight',
+                        timeout: 1500,
+                    }).show();
                 }
             })
         });
