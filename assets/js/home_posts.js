@@ -1,3 +1,5 @@
+/***************************home-comments-section******************************/
+
 class postComment{
     constructor(postId){
         this.postId = postId;
@@ -14,6 +16,7 @@ class postComment{
     createComment = function(postId){
         let commentForm = $(this.commentForm);
         let self = this;
+        
         commentForm.submit(function(e){
             e.preventDefault();
     
@@ -22,7 +25,7 @@ class postComment{
                 method: 'post',
                 data: commentForm.serialize(),
                 success: function(data){
-                    let newComment = self.newCommentDOM(data.data.comment);
+                    let newComment = self.newCommentDOM(data.data.comment, data.data.comment_user);
                     $(`#post-comments-${ postId }`).prepend(newComment);
                     self.deleteComment($(` .delete-comment-button`, newComment));
 
@@ -49,7 +52,7 @@ class postComment{
     }
     
     //method to display comment data on home page via AJAX
-    newCommentDOM = function(comment){
+    newCommentDOM = function(comment, username){
         return $(
         `
             <li id="comment-${ comment._id }"> 
@@ -62,7 +65,7 @@ class postComment{
                     </span>
                     <br>
                     <small>
-                        ${ comment.user.name }
+                        ${ username }
                     </small>
                 </p>
             </li>
@@ -104,6 +107,9 @@ class postComment{
 }
 
 
+/*************************home-post-section******************************/
+
+
 
 
 {
@@ -120,7 +126,7 @@ class postComment{
                 method: 'post',
                 data: newPostForm.serialize(),
                 success: function(data){
-                    let newPost = newPostDom(data.data.post);
+                    let newPost = newPostDom(data.data.post, data.data.post_user);
                     $('#posts-list-container>ul').prepend(newPost);
                     deletePost($(` .delete-post-button`, newPost));
                     new postComment(data.data.post._id);
@@ -150,7 +156,7 @@ class postComment{
     }
 
     //method to display post created on home page
-    let newPostDom = function(post){
+    let newPostDom = function(post, username){
         return $(`
             <li id="post-${ post._id }">
                 <p>
@@ -162,7 +168,7 @@ class postComment{
                     </strong>
                     <br>
                     <small>
-                        ${ post.user.name }
+                        ${ username }
                     </small>
                 </p>
         

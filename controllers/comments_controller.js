@@ -23,6 +23,7 @@ module.exports.create = async function(req, res){
                 return res.status(200).json({
                     data: {
                         comment: comment,
+                        comment_user: req.user.name,
                     }, 
                     message: 'Comment created successfully!',
                 });
