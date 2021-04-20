@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const fs = require('fs');
+const path = require('path');
 
 //render the profile page
 module.exports.profile = async function(req, res){
@@ -27,9 +29,33 @@ module.exports.update = async function(req, res) {
         if(req.user.id == req.params.id){
 
             //find User's details and update
-            await User.findByIdAndUpdate(req.params.id, req.body);
-            req.flash('success', 'Profile Updated Successfully!');
-            return res.redirect('back');
+            let user = await User.findById(req.params.id);
+
+            User.uploadedAvatar(req, res, function(err){
+                if(err){
+                    console.log('****Multer error', err);
+                    return;
+                }
+                user.name = req.body.name;
+                user.email = req.body.email;
+
+                if(req.file){
+
+                    //delete if a previous avatar exists in the storage
+                    if(user.avatar){
+                        let avatarLocation = path.join(__dirname, '..', user.avatar);
+
+                        //delete only if the file is present so errors dont come up when the storage is accidently wiped out.
+                        if(fs.existsSync(avatarLocation)){
+                            fs.unlinkSync(avatarLocation);
+                        }
+                    }
+                    user.avatar = User.avatarPath + '/' + req.file.filename;
+                }
+                user.save();
+                req.flash('success', 'Profile Updated Successfully!');
+                return res.redirect('back');
+            });
         }else{
             return res.status(401).send('Unauthorized Access');
         }

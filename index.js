@@ -30,6 +30,9 @@ const User = require('./models/User');
 //set up static files access
 app.use(express.static('./assets'));
 
+//set up access to uploaded files
+app.use('/uploads', express.static('./uploads'));
+
 //set up express-ejs-layouts
 app.use(expressLayouts);
 app.set('layout extractStyles', true);
@@ -67,6 +70,7 @@ app.use(customMware.setFlash);
 
 //use express router
 app.use('/', require('./routes'));
+
 
 //set up server
 app.listen(port, function(err){

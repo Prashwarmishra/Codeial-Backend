@@ -1,2 +1,4 @@
 body {
   background-color: skyblue; }
+  body img {
+    width: 100px; }
