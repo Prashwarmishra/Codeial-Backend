@@ -13,7 +13,7 @@ module.exports.index = async function(req, res){
         }
     })
 
-    return res.json(200, {
+    return res.status(200).json({
         message: 'Index of Posts',
         posts: posts,
     })
@@ -24,19 +24,24 @@ module.exports.destroy = async function(req, res){
     try{
         //locate post in database
         let post = await Post.findById(req.params.id);
-
-        post.remove();
+        if(post.user == req.user.id){
+            post.remove();
             
-        //delete comments associated with the post
-        await Comment.deleteMany({post: req.params.id});
+            //delete comments associated with the post
+            await Comment.deleteMany({post: req.params.id});
 
-        return res.json(200, {
-            message: 'Post and associated Comments deleted Successfully',
-        })
+            return res.json(200, {
+                message: 'Post and associated Comments deleted Successfully',
+            })
+        }else{
+            return res.status(422).json({
+                message: 'Unauthorised',
+            });
+        }
 
     }catch(err){
-        return res.json(200, {
-            message: 'Error in deleting the post',
+        return res.json(500, {
+            message: 'Internal Server Error',
         })
     }
 }
