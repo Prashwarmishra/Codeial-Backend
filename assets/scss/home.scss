@@ -1,36 +1,38 @@
-#home-container {
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-    input{
-        height: 1.4em;
-        border: 1px solid darkblue;
-    }
-    button{
-        width: 6em;
-        border: none;
-        background-color: cornflowerblue;
-        height: 1.75em;
-    }
-    .feed-posts {
-        width: 80%;
-        padding: 1rem;
-        min-height: 100vh;
-        #posts-list-container {
-            small a{
-                text-decoration: none;
-                font-weight: bold;
-                color: red;
+body{
+    #home-container {
+        display: flex;
+        flex-wrap: wrap;
+        height: 100%;
+        input{
+            height: 1.4em;
+            border: 1px solid darkblue;
+        }
+        button{
+            width: 6em;
+            border: none;
+            background-color: cornflowerblue;
+            height: 1.75em;
+        }
+        .feed-posts {
+            width: 80%;
+            padding: 1rem;
+            min-height: 100vh;
+            #posts-list-container {
+                small a{
+                    text-decoration: none;
+                    font-weight: bold;
+                    color: red;
+                }
             }
         }
-    }
-    #user-friends{
-        width: 12%;
-        padding: 1rem;
-        border-left: 1px solid gray;
-        p a{
-            text-decoration: none;
-            color: maroon;
+        #user-friends{
+            width: 12%;
+            padding: 1rem;
+            border-left: 1px solid gray;
+            p a{
+                text-decoration: none;
+                color: maroon;
+            }
         }
     }
 }

@@ -1,0 +1,56 @@
+body {
+  background: url(../images/Vorderrhein.svg);
+  background-size: cover;
+  background-color: aliceblue;
+  text-align: center; }
+  body .wrapper {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 1em;
+    box-shadow: 1px 1px 4px 1px grey;
+    width: 325px;
+    margin: 15vh auto; }
+    body .wrapper form {
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+      body .wrapper form input {
+        margin: 0.5em;
+        padding: 0.5em;
+        width: 75%;
+        border: none;
+        border-radius: 1em;
+        outline: none;
+        border: 1px solid darkslategray; }
+      body .wrapper form button {
+        background-image: linear-gradient(to right, #780206 0%, #061161 51%, #780206 100%); }
+      body .wrapper form button {
+        margin: 10px;
+        padding: 10px 30px;
+        text-align: center;
+        text-transform: uppercase;
+        transition: 0.5s;
+        background-size: 200% auto;
+        color: white;
+        border: none;
+        border-radius: 1em;
+        display: block;
+        outline: none; }
+      body .wrapper form button:hover {
+        background-position: right center;
+        /* change the direction of the change here */
+        color: #fff;
+        text-decoration: none; }
+    body .wrapper #option {
+      font-size: 1em;
+      font-weight: bold;
+      margin: 5px;
+      letter-spacing: 1px; }
+    body .wrapper #google-auth a {
+      text-decoration: none;
+      color: black;
+      background: salmon;
+      padding: 0.5em;
+      box-shadow: 1px 3px 4px 0px grey;
+      border-radius: 2em; }
