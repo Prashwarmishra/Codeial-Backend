@@ -4,6 +4,8 @@ const path = require('path');
 const PasswordResetToken = require('../models/PasswordResetToken');
 const crypto = require('crypto');
 const passwordResetMailer = require('../mailers/password_reset_mailer');
+const queue = require('../config/kue');
+const resetPasswordEmailWorker = require('../workers/reset_password_email_worker');
 
 //render the profile page
 module.exports.profile = async function(req, res){
@@ -152,9 +154,15 @@ module.exports.sendPasswordResetToken = async function(req, res){
                 user: user,
                 isValid: true,
             });
-            //give the token to password reset mailer for it to be mailed
-            await passwordResetMailer.sendPasswordResetToken(token);
 
+            //Enqueue the token in kue for it to be mailed
+            let job = await queue.create('reset-password-token', token).save(function(err){
+                if(err){
+                    console.log('Error in enqueueing a job: ', err);
+                    return;
+                }
+                console.log('job enqueued:', job.id);
+            })
             //render reset information
             return res.render('reset_password_link', {
                 title: 'Account Recovery',                    
