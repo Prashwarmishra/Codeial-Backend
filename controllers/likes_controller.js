@@ -35,7 +35,7 @@ module.exports.toggleLike = async function(req, res){
                 onModel: req.query.type,
             });
 
-            likeable.push(newLike._id);
+            likeable.likes.push(newLike._id);
             likeable.save();
         }
 
@@ -46,7 +46,7 @@ module.exports.toggleLike = async function(req, res){
             }
         });
     } catch (error) {
-        console.log('Error in likes Controller:', err);
+        console.log('Error in likes Controller:', error);
         return res.status(500).json({
             message: 'Internal Server Error',
         })

@@ -30,4 +30,12 @@
             <% } %>  
         <% } %>  
     </section>
+
+    <script src="/js/likes.js"></script>
+    <script>
+        let likeButtons = document.querySelectorAll('.toggle-like');
+        likeButtons.forEach(likeButton => {
+            new ToggleLike(likeButton);
+        });
+    </script>
 </div>

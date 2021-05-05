@@ -28,6 +28,7 @@ class postComment{
                     let newComment = self.newCommentDOM(data.data.comment, data.data.comment_user);
                     $(`#post-comments-${ postId }`).prepend(newComment);
                     self.deleteComment($(` .delete-comment-button`, newComment));
+                    new ToggleLike($(` .toggle-like`, newComment)) 
 
                     new Noty({
                         theme: 'relax',
@@ -66,6 +67,13 @@ class postComment{
                     <br>
                     <small>
                         ${ username }
+                    </small>
+                    <br>
+                    <small>
+                        <a href="/likes/toggleLike?id=${comment._id}&type=Comment" data-likes="${ comment.likes.length }" class="toggle-like">
+                            <span class="current-likes">${ comment.likes.length }</span>
+                            <span><i class="far fa-thumbs-up"></i></span>
+                        </a>
                     </small>
                 </p>
             </li>
@@ -130,7 +138,7 @@ class postComment{
                     $('#posts-list-container>ul').prepend(newPost);
                     deletePost($(` .delete-post-button`, newPost));
                     new postComment(data.data.post._id);
-
+                    new ToggleLike($(` .toggle-like`, newPost));
                     new Noty({
                         theme: 'relax',
                         type: 'success',
@@ -169,6 +177,13 @@ class postComment{
                     <br>
                     <small>
                         ${ username }
+                    </small>
+                    <br>
+                    <small>
+                        <a href="/likes/toggleLike/?id=${post._id}&type=Post" data-likes="${ post.likes.length }" class="toggle-like">
+                            <span class="current-likes">${ post.likes.length }</span>
+                            <span><i class="far fa-thumbs-up"></i></span>
+                        </a>
                     </small>
                 </p>
         
