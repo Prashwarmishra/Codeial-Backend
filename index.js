@@ -15,7 +15,7 @@ const customMware = require('./config/middleware');
 
 //set up middlewares
 app.use(cookieParser());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: false}));
 app.use(sassMiddleware({
     src: './assets/scss',
     dest: './assets/css',
