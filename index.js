@@ -13,6 +13,12 @@ const sassMiddleware = require('node-sass-middleware');
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
 
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
+
+chatServer.listen(5000);
+console.log('Chatsockets listening on port: 5000');
+
 //set up middlewares
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false}));
