@@ -21,7 +21,7 @@ console.log('Chatsockets listening on port: 5000');
 
 //set up middlewares
 app.use(cookieParser());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: true }));
 app.use(sassMiddleware({
     src: './assets/scss',
     dest: './assets/css',
@@ -86,5 +86,5 @@ app.listen(port, function(err){
         console.log(`Error in connecting to the server: ${err}`);
         return;
     }
-    console.log(`The server is up and running at the port: ${port}`);
+    console.log(`Main server running at port: ${port}`);
 })
