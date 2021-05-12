@@ -1,4 +1,5 @@
 const express = require('express');
+const env = require('./config/environment');
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser');
@@ -12,10 +13,11 @@ const MongoStore = require('connect-mongo');
 const sassMiddleware = require('node-sass-middleware');
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
+const path = require('path');
 
+//set up socket server
 const chatServer = require('http').Server(app);
 const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
-
 chatServer.listen(5000);
 console.log('Chatsockets listening on port: 5000');
 
@@ -23,8 +25,8 @@ console.log('Chatsockets listening on port: 5000');
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(sassMiddleware({
-    src: './assets/scss',
-    dest: './assets/css',
+    src: path.join(__dirname, env.assets_path, 'scss'),
+    dest: path.join(__dirname, env.assets_path, 'css'),
     debug: true,
     prefix: '/css',
     outputStyle: 'extended',
@@ -36,7 +38,7 @@ const db = require('./config/mongoose');
 const User = require('./models/User');
 
 //set up static files access
-app.use(express.static('./assets'));
+app.use(express.static(env.assets_path));
 
 //set up access to uploaded files
 app.use('/uploads', express.static('./uploads'));
@@ -53,7 +55,7 @@ app.set('views', './views');
 //set up sessions
 app.use(session({
     name: 'Codeial',
-    secret: 'BlahSomething',
+    secret: env.session_secret,
     saveUninitialized: false,
     resave: false,
     cookie: {

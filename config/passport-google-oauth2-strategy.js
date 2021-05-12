@@ -2,13 +2,14 @@ const passport = require('passport');
 const googleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const crypto = require('crypto');
 const User = require('../models/User');
+const env = require('./environment');
 
 //initialise passport
 passport.use(new googleStrategy(
     {
-        clientID: '853925351392-bcbu6jlkf3g8c2r846jrem7bm8oiff3d.apps.googleusercontent.com',
-        clientSecret: 'mqwfIEpRD6i2sWEownL_4x9V',
-        callbackURL: 'http://localhost:8000/users/auth/google/callback',
+        clientID: env.google_client_id,
+        clientSecret: env.google_client_secret,
+        callbackURL: env.google_callback_url,
     }, 
 
     //callback function, accessToken gives access while refresh token is a special kind of token 
