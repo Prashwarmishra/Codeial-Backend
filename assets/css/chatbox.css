@@ -15,7 +15,7 @@
     padding: 10px;
     height: 70%;
     background-color: white;
-    overflow: auto; }
+    overflow: scroll; }
     #user-chat-box #chat-messages-list li .message-author {
       display: block;
       font-size: 0.7em; }
@@ -36,14 +36,17 @@
         padding: 15px;
         background-color: #a0dcff; }
   #user-chat-box #chat-message-input-container {
-    width: 100%;
     display: flex;
-    flex-direction: row; }
+    flex-direction: row;
+    width: 310px;
+    position: fixed;
+    bottom: 2.8%;
+    right: 0.8%; }
     #user-chat-box #chat-message-input-container #chat-message-input {
       height: 2rem;
+      width: 15rem;
       outline: none;
-      border-color: lightgray;
-      width: 70%; }
+      border-color: lightgray; }
     #user-chat-box #chat-message-input-container #send-message {
       height: 2.22rem;
       cursor: pointer;

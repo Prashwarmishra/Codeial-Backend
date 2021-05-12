@@ -24,42 +24,41 @@ class ChatEngine{
            self.socket.on('user_joined', function(data){
             console.log('A user joined: ', data);
            });
+       });   
+       
+       let sendMessageButton = document.getElementById('send-message');
+       let chatMessageInput = document.getElementById('chat-message-input');
+       let chatMessageList = document.getElementById('chat-messages-list');
+       sendMessageButton.addEventListener('click', function(e){
+           e.preventDefault();
+           if(chatMessageInput.value != ''){
+               self.socket.emit('send_message', {
+                   userEmail: self.userEmail,
+                   chatRoom: 'codeial',
+                   message: chatMessageInput.value,
+                });
+            }
        });
 
-       document.querySelector('#send-message').addEventListener('click', function(e){
-        e.preventDefault();
-        let messageInput = document.querySelector('#chat-message-input').value;
-        
-        if(messageInput != ''){
-            self.socket.emit('send-message', {
-                userEmail: self.userEmail,
-                message: messageInput,
-                chatRoom: 'codeial-chat',
-            });
-        }
-        
-        self.socket.on('recieve-message', function(data){
-            console.log('chal jaa bro');
-             let newMessageList = document.createElement('li');
-             let messageContent = document.createElement('span');
-             let messageSender = document.createElement('sub');
-             messageSender.classList.add('message-author');
-             messageContent.append(data.message);
-             messageSender.append(data.userEmail);
+       this.socket.on('message_recieved', function(data){
+            let message = document.createElement('li');
+            let messageClass = 'other-message';
+            if(data.userEmail == self.userEmail){
+                messageClass = 'self-message';
+            }
+            message.classList.add(messageClass);
 
-             let messageType = 'other-message';
-             if(self.userEmail == data.userEmail){
-                 messageType = 'self-message';
-             }
+            let messageInput = document.createElement('span');
+            messageInput.append(data.message);
 
-             newMessageList.classList.add(messageType);
-             newMessageList.append(messageContent);
-             newMessageList.append(messageSender);
+            let messageAuthor = document.createElement('sub');
+            messageAuthor.classList.add('message-author');
+            messageAuthor.append(data.userEmail);
 
-             document.querySelector('#chat-messages-list').append(newMessageList);
-        });
-    });
-
+            message.append(messageInput);
+            message.append(messageAuthor);
+            chatMessageList.append(message);
+       });
 
    }
 }
