@@ -71,7 +71,8 @@ app.use(
     },
     store: MongoStore.create(
       {
-        mongoUrl: "mongodb://localhost/codeial_development",
+        // "mongodb://localhost/codeial_development"
+        mongoUrl: env.db_path,
         autoRemove: "disabled",
       },
       function (err) {

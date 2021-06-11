@@ -59,3 +59,13 @@
 [0mGET /users/profile/60c32f84e44417c489e3d6a3 [32m200[0m 583.391 ms - 2236[0m
 [0mGET / [0m-[0m - ms - -[0m
 [0mGET / [32m200[0m 1848.762 ms - 9513[0m
+[0mGET / [36m304[0m 1936.108 ms - -[0m
+[0mGET /users/profile/60c32f19e44417c489e3d69d [36m304[0m 555.264 ms - -[0m
+[0mGET / [36m304[0m 1376.739 ms - -[0m
+[0mGET /users/profile/60c32f84e44417c489e3d6a3 [36m304[0m 542.177 ms - -[0m
+[0mGET / [32m200[0m 1780.362 ms - 5632[0m
+[0mGET /users/sign-in [32m200[0m 286.297 ms - 2310[0m
+[0mPOST /users/create-session [36m302[0m 721.409 ms - 46[0m
+[0mGET / [32m200[0m 2222.705 ms - 9756[0m
+[0mGET /users/profile/60c32f84e44417c489e3d6a3 [36m304[0m 1181.312 ms - -[0m
+[0mGET / [32m200[0m 2008.728 ms - 9513[0m
