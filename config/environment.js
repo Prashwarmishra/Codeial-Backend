@@ -13,7 +13,7 @@ const accessLogStream = rfs.createStream("access.log", {
 const development = {
   name: "development",
   assets_path: "./assets",
-  db_path: "codeial_development",
+  db_path: `mongodb+srv://prashwarmishra:SwcMVEGxwkAhZZ2j@cluster0.hcr7f.mongodb.net/codeial?retryWrites=true&w=majority`,
   session_secret: "BlahSomething",
   smtp: {
     service: "gmail",
